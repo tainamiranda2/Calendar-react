@@ -11,12 +11,13 @@ export const Calenda=()=>{
   const [value,setValue]=useState(new Date())
   
   //const navigate =Navigate()
-  const vijar = useNavigate()
-  console.log(value)
+  const viajar = useNavigate()
+  console.log("Oii",value)
 
 
   return (
     <>
+    <h1>Agende uma tarefa</h1>
       <Calendar
         onChange={setValue}
         value={value}
