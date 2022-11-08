@@ -8,7 +8,7 @@ export const Agenda=()=>{
   const [titulo, setTitulo]=useState('');
   const [descricao, setDescricao]=useState('');
 
-
+//função de postare
   const enviar=async(e)=>{
     e.preventDefault();
    // console.log("oi");
@@ -21,6 +21,17 @@ body: JSON.stringify(agenda)
 
 //console.log(agenda)
   }
+  //função de delete
+  const apagar =async (idProduto) => {
+    await fetch("http://localhost:2000/agenda" + idProduto,{
+      method: "DELETE",
+    })
+     
+      
+    console.log(idProduto)
+
+  }
+  //função de editar
   const getAgenda=async()=>{
     fetch('http://localhost:2000/agenda')
     .then((resp)=> resp.json())
@@ -30,7 +41,8 @@ body: JSON.stringify(agenda)
   }
 useEffect(()=>{
   getAgenda()
-})
+},[])
+
   return(
 
   <>
@@ -64,8 +76,19 @@ onChange={(e)=>setTitulo(e.target.value)}
 
   <button onClick={enviar}>Agenda</button>
   </form>
+
   <h3>Todos as tarefas cadastradas</h3>
-<p></p>
+
+{data && data.map((dados)=>(
+  <div className="get">
+    <button className="apagar" onClick={apagar(dados.id)}>apagar</button>
+    <button className="editar">Editar</button>
+  <h4 key={dados.id}>{dados.titulo}</h4>
+  <p>{dados.descricao}</p>
+  <p>{dados.titulo}</p>
+  </div>
+))}
+
   </>
 )
 }

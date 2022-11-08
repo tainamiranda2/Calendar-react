@@ -24,3 +24,13 @@ flex-direction: column;
 display: flex;
 margin: 5px;
 }
+.apagar{
+  background: red;
+  color:#fff;
+  cursor: pointer;
+}
+.editar{
+  background:blue;
+  color:#fff;
+  cursor: pointer;
+}
