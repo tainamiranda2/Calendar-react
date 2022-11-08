@@ -1,6 +1,6 @@
-## Running React on Repl.it
 
-#features
-#Deletar
-#Ver
-#coneção com a api
+# features
+## Deletar
+## Ver
+## Conexão com a api
+## npm run dev - para rodas
