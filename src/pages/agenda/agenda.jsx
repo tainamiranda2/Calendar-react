@@ -2,7 +2,7 @@
 import React from "react"
 import { useEffect } from "react";
 import { useState } from "react";
-
+import { Link } from "react-router-dom"
 export const Agenda=()=>{
   const [data,setData]=useState([])
   const [titulo, setTitulo]=useState('');
@@ -23,13 +23,15 @@ body: JSON.stringify(agenda)
   }
   //função de delete
   const apagar =async (idProduto) => {
-    await fetch("http://localhost:2000/agenda" + idProduto,{
+    await fetch(`http://localhost:2000/agenda`+ idProduto,{
       method: "DELETE",
+       headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(data),
     })
      
       
-    console.log(idProduto)
-
+    //console.log(idProduto)
+ getAgenda()
   }
   //função de editar
   const getAgenda=async()=>{
@@ -81,8 +83,15 @@ onChange={(e)=>setTitulo(e.target.value)}
 
 {data && data.map((dados)=>(
   <div className="get">
-    <button className="apagar" onClick={apagar(dados.id)}>apagar</button>
-    <button className="editar">Editar</button>
+    <button className="apagar" 
+      onClick={()=>apagar(dados.id)}
+      >apagar
+    </button>
+    <Link className="editar" 
+      to={"editar" +dados.id}>
+      Editar
+    </Link>
+    
   <h4 key={dados.id}>{dados.titulo}</h4>
   <p>{dados.descricao}</p>
   <p>{dados.titulo}</p>
