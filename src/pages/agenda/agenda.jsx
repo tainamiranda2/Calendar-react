@@ -3,6 +3,7 @@ import React from "react"
 import { useEffect } from "react";
 import { useState } from "react";
 import { Link } from "react-router-dom"
+
 export const Agenda=()=>{
   const [data,setData]=useState([])
   const [titulo, setTitulo]=useState('');
@@ -10,7 +11,7 @@ export const Agenda=()=>{
   
     //console.log(idProduto)
  const getAgenda=async()=>{
-fetch("http://localhost:5000")
+fetch("http://localhost:5000/agenda")
    .then((Response) => Response.json())
      .then((ResponseJson) => (
         setData(ResponseJson)          
@@ -21,29 +22,28 @@ fetch("http://localhost:5000")
   const enviar=async(e)=>{
     e.preventDefault();
    // console.log("oi");
-   const agenda={titulo, descricao, data}
+   const agenda={
+    titulo, descricao, data
+  }
+
 const res=await fetch('http://localhost:5000/agenda',{
 method: "POST",
 headers: { "Content-Type":"application/json"},
 body: JSON.stringify(agenda)
 })
-
-//console.log(agenda)
+getAgenda()
   }
   //função de delete
   const apagar =async (idProduto) => {
-    await fetch(`http://localhost:5000/agenda`+ idProduto,{
+    await fetch(`http://localhost:5000/agenda/`+ idProduto,{
       method: "DELETE",
        headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(data),
+      body: JSON.stringify(data)
     })
-     
-      
-
+    getAgenda()
+  }  
   
-  //função de editar
-  
-    useEffect(()=>{
+ useEffect(()=>{
   getAgenda()
 },[])
 
@@ -70,13 +70,6 @@ onChange={(e)=>setTitulo(e.target.value)}
   onChange={(e)=>setDescricao(e.target.value)}
   />
 
-  <input 
-   name="data"
-  type="date"
-  placeholder="Inform uma data"
-  value={data}
-  onChange={(e)=>setData(e.target.value)}
-  />
 
   <button onClick={enviar}>Agenda</button>
   </form>
@@ -85,20 +78,19 @@ onChange={(e)=>setTitulo(e.target.value)}
 
 {data && data.map((dados)=>(
   <div className="get">
-    <button className="apagar" 
-      onClick={()=>apagar(dados.id)}>apagar
-    </button>
-    <Link className="editar" 
-      to={"editar" +dados.id}>
-      Editar
-    </Link>
+    
     
   <h4 key={dados.id}>{dados.titulo}</h4>
   <p>{dados.descricao}</p>
-  <p>{dados.titulo}</p>
+  <button className="apagar" 
+      onClick={()=>apagar(dados.id)}>Apagar
+    </button>
+    <Link className="editar" to={"/editar/" +dados.id}>
+      Editar
+    </Link>
   </div>
 ))}
 
   </>
 )
-}
+  }
