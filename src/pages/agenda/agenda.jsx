@@ -7,13 +7,22 @@ export const Agenda=()=>{
   const [data,setData]=useState([])
   const [titulo, setTitulo]=useState('');
   const [descricao, setDescricao]=useState('');
-
+  
+    //console.log(idProduto)
+ const getAgenda=async()=>{
+fetch("http://localhost:5000")
+   .then((Response) => Response.json())
+     .then((ResponseJson) => (
+        setData(ResponseJson)          
+     ));
+ } 
+  
 //função de postare
   const enviar=async(e)=>{
     e.preventDefault();
    // console.log("oi");
    const agenda={titulo, descricao, data}
-const res=await fetch('http://localhost:2000/agenda? ',{
+const res=await fetch('http://localhost:5000/agenda',{
 method: "POST",
 headers: { "Content-Type":"application/json"},
 body: JSON.stringify(agenda)
@@ -23,25 +32,18 @@ body: JSON.stringify(agenda)
   }
   //função de delete
   const apagar =async (idProduto) => {
-    await fetch(`http://localhost:2000/agenda`+ idProduto,{
+    await fetch(`http://localhost:5000/agenda`+ idProduto,{
       method: "DELETE",
        headers: { "Content-Type": "application/json" },
       body: JSON.stringify(data),
     })
      
       
-    //console.log(idProduto)
- getAgenda()
-  }
+
+  
   //função de editar
-  const getAgenda=async()=>{
-    fetch('http://localhost:2000/agenda')
-    .then((resp)=> resp.json())
-    .then((respJson)=>(
-      setData(respJson)
-    ))
-  }
-useEffect(()=>{
+  
+    useEffect(()=>{
   getAgenda()
 },[])
 
@@ -84,8 +86,7 @@ onChange={(e)=>setTitulo(e.target.value)}
 {data && data.map((dados)=>(
   <div className="get">
     <button className="apagar" 
-      onClick={()=>apagar(dados.id)}
-      >apagar
+      onClick={()=>apagar(dados.id)}>apagar
     </button>
     <Link className="editar" 
       to={"editar" +dados.id}>

@@ -11,9 +11,8 @@ export const Router=()=>{
     <Routes>
 
 
-    <Route path="/" element={<Calenda/>}/>
+    <Route path="/" element={<Agenda/>}/>
 
-<Route path="/agenda" element={<Agenda/>}/>
 
     </Routes>
     </BrowserRouter>
